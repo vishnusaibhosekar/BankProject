@@ -55,6 +55,13 @@ app.post('/auth', function(request, response) {
                 
 				response.redirect('/dashboard');
 				}
+				else{
+					console.log("in else")
+					request.session.loggedin = true;
+					request.session.username = username;
+					
+					response.redirect(`/userdash/${username}`);
+				}
 			} else {
                 response.render('pages/login');
 				console.error('Incorrect Username and/or Password!');
@@ -74,15 +81,44 @@ app.get('/dashboard', async function(request, response) {
 				if (error) throw error;
 				
 				if (results.length > 0) {
+					if(results[0]['role'] === 'admin'){
 					fetchedBranches = results
 					await response.render('pages/dashboard',{
 						branchData: fetchedBranches
 				});
+				}	
 				} else {
 					await response.render('pages/dashboard',{
 						branchData: []
 					})
 				}			
+				// response.end();
+			});
+	}
+ else {
+		response.render('/');
+	}
+});
+
+app.get('/transaction', async function(request, response) {
+	response.render("pages/transaction",{
+		
+	})
+});
+
+app.get('/userdash/:username', async function(request, response) {
+	if (request.session.loggedin) {
+		let transacs;
+        	await connection.query(`SELECT * FROM customer cs inner join customer_account_access ca on cs.cssn = ca.cssn inner join customer_transaction ct on cs.cssn=ct.cssn inner join bank_account ba on ca.account_number=ba.account_number and cs.cssn=${request.params.username};`, async function(error, results, fields) {
+				if (error) throw error;
+				
+				if (results.length > 0) {
+					transacs = results
+					await response.render('pages/usertransactions',{
+						userTransacs: transacs
+				});
+					
+				} 		
 				// response.end();
 			});
 	}
