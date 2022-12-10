@@ -14,23 +14,23 @@
             <form>
                 <div class="form-group" style="display: grid; grid-template-columns: auto 1fr; gap: 2rem;">
                     <label for="exampleFormControlInput1" style="width: 7rem;">Bank name : </label>
-                    <input class="form-control" type="text" placeholder="Money Bank" readonly>
+                    <input class="form-control" type="text" placeholder="VSVT Bank" readonly>
                 </div>
                 <div class="form-group" style="display: grid; grid-template-columns: auto 1fr; gap: 2rem;">
                     <label for="exampleFormControlInput1" style="width: 7rem;">Branch name :</label>
-                    <input type="email" class="form-control" id="branch_name" placeholder=<%- accounts[0].branch_name %>>
+                    <input type="email" class="form-control" id="branch_name" placeholder=<%- accounts[0].branch_name %>
                 </div>
-              </form>
+            </form>
         </div>
         <div>
             <table class="table table-striped">
                 <thead>
-                  <tr>
-                    <th scope="col">CSSN</th>
-                    <th scope="col">Customer Name</th>
-                    <th scope="col">Account Number</th>
-                    <th scope="col">Balance</th>
-                  </tr>
+                    <tr>
+                        <th scope="col">CSSN</th>
+                        <th scope="col">Customer Name</th>
+                        <th scope="col">Account Number</th>
+                        <th scope="col">Balance</th>
+                    </tr>
                 </thead>
                 <tbody id="table-body">
                     <%
@@ -39,11 +39,11 @@
                         accounts.forEach(function(data){
                     %>
                     <tr>
-                        <td scope="row"><%- data.cssn %></td>
-                        <td><%=data.cname %></td>
+                        <td scope="row"><%- data.cust_ssn %></td>
+                        <td><%=data.cust_name %></td>
                         <td><%=data.account_number %></td>
                         <td><%=data.balance %></td>
-                      </tr>
+                    </tr>
                     <%
                     })
                 }
@@ -52,7 +52,7 @@
                 }    
                     %>
                 </tbody>
-              </table>
+            </table>
         </div>
         <div>
         <footer><%- include('../partials/footer'); %></footer>

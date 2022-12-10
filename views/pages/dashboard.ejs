@@ -13,20 +13,20 @@
             <h3>Bank Branches Overview</h3>
             <form>
                 <div class="form-group" style="display: grid; grid-template-columns: auto 1fr; gap: 2rem;">
-                    <label for="exampleFormControlInput1">Bank name : </label>
-                    <input class="form-control" type="text" placeholder="Money Bank" readonly>
+                    <label for="exampleFormControlInput1">Bank Name : </label>
+                    <input class="form-control" type="text" placeholder="VSVT Bank" readonly>
                 </div>
-              </form>
+            </form>
         </div>
         <div>
             <table class="table table-striped">
                 <thead>
-                  <tr>
-                    <th scope="col">branch id</th>
-                    <th scope="col">address</th>
-                    <th scope="col">assets</th>
-                    <th scope="col">branch name</th>
-                  </tr>
+                    <tr>
+                        <th scope="col">Branch ID</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Assets</th>
+                        <th scope="col">Branch Name</th>
+                    </tr>
                 </thead>
                 <tbody id="table-body">
                     <%
@@ -39,16 +39,16 @@
                         <td><%=data.address %></td>
                         <td><%=data.assets %></td>
                         <td><%=data.branch_name %></td>
-                      </tr>
+                    </tr>
                     <%
                     })
                 }
                 else{
-                    console.log("error ra pumka")
+                    console.log("Error");
                 }    
                     %>
                 </tbody>
-              </table>
+            </table>
         </div>
     </div>
         <footer><%- include('../partials/footer'); %></footer>
