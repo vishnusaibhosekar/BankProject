@@ -9,7 +9,7 @@ const connection = mysql.createConnection({
 	host     : 'localhost',
 	user     : 'root',
 	password : '',
-	database : 'bank_db'
+	database : 'BankProject'
 });
 
 const app = express();
@@ -49,11 +49,12 @@ app.post('/auth', function(request, response) {
 			if (error) throw error;
             
 			if (results.length > 0) {
-                
+                if(results[0]['role'] === 'admin'){
 				request.session.loggedin = true;
 				request.session.username = username;
                 
 				response.redirect('/dashboard');
+				}
 			} else {
                 response.render('pages/login');
 				console.error('Incorrect Username and/or Password!');
@@ -66,14 +67,55 @@ app.post('/auth', function(request, response) {
 });
 
 // http://localhost:3000/dashboard
-app.get('/dashboard', function(request, response) {
+app.get('/dashboard', async function(request, response) {
 	if (request.session.loggedin) {
-		response.render('pages/dashboard');
-	} else {
+		let fetchedBranches;
+        	await connection.query('SELECT * FROM branch', async function(error, results, fields) {
+				if (error) throw error;
+				
+				if (results.length > 0) {
+					fetchedBranches = results
+					await response.render('pages/dashboard',{
+						branchData: fetchedBranches
+				});
+				} else {
+					await response.render('pages/dashboard',{
+						branchData: []
+					})
+				}			
+				// response.end();
+			});
+	}
+ else {
 		response.render('/');
 	}
-	response.end();
 });
+
+app.get('/bank/:id', function(request,response){
+	if(request.session.loggedin){
+		let accountsInBranch;
+		const bankid = request.params.id
+		 connection.query(`SELECT c.cssn, cu.cname, b.account_number, b.balance, b.branch_id, br.branch_name FROM customer_account_access c inner join bank_account b on b.account_number = c.account_number inner join customer cu on cu.cssn = c.cssn inner join branch br on br.branch_id = b.branch_id and b.branch_id=${bankid};`,  function(error, results, fields) {
+			if (error) throw error;
+			
+			if (results.length > 0) {
+				accountsInBranch = results
+				console.log(accountsInBranch)
+				 response.render('pages/customers',{
+					accounts: accountsInBranch
+			});
+			} else {
+				response.render('pages/login');
+				console.error('Incorrect Username and/or Password!');
+			}			
+			// response.end();
+		});
+	}
+	else{
+		response.render('/');
+	}
+
+})
 
 const port = 3000;
 
