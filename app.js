@@ -9,10 +9,11 @@ const connection = mysql.createConnection({
 	host     : 'localhost',
 	user     : 'root',
 	password : '',
-	database : 'bank_db'
+	database : 'BankProject'
 });
 
 const app = express();
+let username;
 
 app.set("view engine", "ejs");
 
@@ -46,7 +47,6 @@ app.post('/auth', function(request, response) {
 	if (username && password) {
 		connection.query('SELECT * FROM auth WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
 			if (error) throw error;
-            console.error(JSON.stringify(results));	
 			if (results.length > 0) {
                 if(results[0]['role'] === 'admin'){
 				request.session.loggedin = true;
@@ -92,7 +92,8 @@ app.get('/dashboard', async function(request, response) {
 	}
 });
 
-app.get('/transaction/:account_number', async function(request, response) {
+app.get('/transaction/:account_number/:username', async function(request, response) {
+	username = request.params.username
 	let accNum = request.params.account_number;
 	response.render("pages/transaction",{
 		account_number: accNum
@@ -100,23 +101,22 @@ app.get('/transaction/:account_number', async function(request, response) {
 });
 
 app.post('/transact', function(request, response) {
-	console.log("X "+request.query.JSON);
+	console.log(request.body)
 	// let accNum = request.params.account_number;
-	// response.redirect("pages/transaction",{
-	// 	account_number: accNum
-	// })
+	response.redirect(`/userdash/${username}`)
 });
 
 app.get('/userdash/:username', async function(request, response) {
 	if (request.session.loggedin) {
 		let transacs;
-        	await connection.query(`SELECT * FROM customer cs inner join customer_account_access ca on cs.cust_ssn = ca.cust_ssn inner join customer_transaction ct on cs.cust_ssn=ct.cust_ssn inner join bank_account ba on ca.account_number=ba.account_number and cs.cust_ssn=${request.params.username};`, async function(error, results, fields) {
+        	await connection.query(`SELECT * FROM customer cs inner join customer_account_access ca on cs.cssn = ca.cssn inner join customer_transaction ct on cs.cssn=ct.cssn inner join bank_account ba on ca.account_number=ba.account_number and cs.cssn=${request.params.username};`, async function(error, results, fields) {
 				if (error) throw error;
 				
 				if (results.length > 0) {
 					transacs = results
 					await response.render('pages/usertransactions',{
-						userTransacs: transacs
+						userTransacs: transacs,
+						username: request.params.username
 					});
 				}
 			});
@@ -129,7 +129,7 @@ app.get('/bank/:id', function(request,response){
 	if(request.session.loggedin){
 		let accountsInBranch;
 		const bankid = request.params.id
-		connection.query(`SELECT c.cust_ssn, cu.cust_name, b.account_number, b.balance, b.branch_id, br.branch_name FROM customer_account_access c inner join bank_account b on b.account_number = c.account_number inner join customer cu on cu.cust_ssn = c.cust_ssn inner join branch br on br.branch_id = b.branch_id and b.branch_id=${bankid};`,  function(error, results, fields) {
+		connection.query(`SELECT c.cssn, cu.cname, b.account_number, b.balance, b.branch_id, br.branch_name FROM customer_account_access c inner join bank_account b on b.account_number = c.account_number inner join customer cu on cu.cssn = c.cssn inner join branch br on br.branch_id = b.branch_id and b.branch_id=${bankid};`,  function(error, results, fields) {
 			if (error) throw error;
 			
 			if (results.length > 0) {

@@ -1,5 +1,17 @@
 <!DOCTYPE html>
 <html>
+    <script>
+        function onConfirmClick(){
+            var radios = document.getElementsByName('type');
+
+            for (var i = 0, length = radios.length; i < length; i++) {
+                if (radios[i].checked) {
+                    // alert(radios[i].value);
+                 break;
+                }
+            }
+        }
+        </script>
     <head>
         <title>VSVT Bank Dashboard</title>
         <link rel="stylesheet" href="css/page.css" >
@@ -30,8 +42,8 @@
             <div class="form-group" style="display: grid; grid-template-columns: auto 1fr; gap: 2rem;">
                 <label for="exampleFormControlInput1" style="width: 5rem;"></label>
                 <div>
-                    <input class="btn-primary" type="submit" value="Confirm" style="width: 25%;"/>
-                    <input class="btn-primary" type="submit" value="Reset" style="width: 25%;"/>
+                        <button type="submit" class="btn btn-primary" onclick="onConfirmClick()" name="type">Submit</button>
+                        <button type="reset" class="btn btn-primary" name="type">Reset</button>
                 </div>
             </div>
         </form>

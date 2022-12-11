@@ -17,14 +17,14 @@
             <form>
                 <div class="form-group" style="display: grid; grid-template-columns: auto 1fr; gap: 2rem;">
                     <label for="exampleFormControlInput1" style="width: 5rem;">Customer name : </label>
-                    <input class="form-control" type="text" readonly placeholder=<%- userTransacs[0]['cust_name'] %>>
+                    <input class="form-control" type="text" readonly placeholder=<%- userTransacs[0]['cname'] %>>
                 </div>
                 <div class="form-group" style="display: grid; grid-template-columns: auto 1fr; gap: 2rem;">
                     <label for="exampleFormControlInput1" style="width: 5rem;">Balance : </label>
                     <input class="form-control" type="text" readonly placeholder=<%- userTransacs[0]['balance'] %>>
                 </div>
                 <div style="float: right; margin-bottom: 2rem;">
-                    <button><a href="/transaction/<%- userTransacs[0]['account_number'] %>">Make Transaction</a></button>
+                    <button><a href="/transaction/<%- userTransacs[0]['account_number'] %>/<%- username %>">Make Transaction</a></button>
                 </div>
             </form>
         </div>
@@ -58,7 +58,7 @@
                     })
                 }
                 else{
-                    console.log("error ra pumka")
+                    console.log("error")
                 }    
                     %>
                 </tbody>
