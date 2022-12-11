@@ -94,9 +94,17 @@ app.get('/dashboard', async function(request, response) {
 
 app.get('/transaction/:account_number', async function(request, response) {
 	let accNum = request.params.account_number;
-	response.render("pages/transaction/${}",{
+	response.render("pages/transaction",{
 		account_number: accNum
 	})
+});
+
+app.post('/transact', function(request, response) {
+	console.log("X "+request.query.JSON);
+	// let accNum = request.params.account_number;
+	// response.redirect("pages/transaction",{
+	// 	account_number: accNum
+	// })
 });
 
 app.get('/userdash/:username', async function(request, response) {

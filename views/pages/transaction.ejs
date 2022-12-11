@@ -9,23 +9,23 @@
     <body style="height: 100vh; width: 100vw;">
         <header><%- include('../partials/header'); %></header>
         <div style="padding: 2rem;">
-        <form>
+        <form action="/transact" method="post">
             <div class="form-group" style="display: grid; grid-template-columns: auto 1fr; gap: 2rem;">
-                <label for="exampleFormControlInput1" style="width: 5rem;">Customer Name : </label>
-                <input class="form-control" type="text" readonly placeholder="HEHE">
+                <label for="exampleFormControlInput1" style="width: 5rem;">Account Number : </label>
+                <input class="form-control" type="text" readonly name="acctNum" value="<%- account_number %>">
             </div>
             <div class="form-group" style="display: grid; grid-template-columns: auto 1fr; gap: 2rem;">
                 <label for="exampleFormControlInput1" style="width: 5rem;">Type :</label>
                 <div>
-                    <input type="radio" id="withdraw" name="drone" value="withdraw">
+                    <input type="radio" id="withdraw" name="type" value="withdraw" checked>
                     <label for="withdraw">Withdraw</label>
-                    <input type="radio" id="deposit" name="drone" value="deposit">
+                    <input type="radio" id="deposit" name="type" value="deposit">
                     <label for="deposit">Deposit</label>
                 </div>
             </div>
             <div class="form-group" style="display: grid; grid-template-columns: auto 1fr; gap: 2rem;">
                 <label for="exampleFormControlInput1" style="width: 5rem;">Amount : </label>
-                <input class="form-control" type="text" readonly placeholder="Amount">
+                <input class="form-control" type="text" placeholder="Amount" name="amount" required>
             </div>
             <div class="form-group" style="display: grid; grid-template-columns: auto 1fr; gap: 2rem;">
                 <label for="exampleFormControlInput1" style="width: 5rem;"></label>
