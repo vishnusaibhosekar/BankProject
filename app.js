@@ -106,7 +106,7 @@ app.post('/maketransaction', async function(request, response) {
 		if (error) throw error;
 		if (results.length > 0) {
 			//console.log(results);
-			console.log(request.body);
+			// console.log(request.body);
 			//console.log(results);
 			var transType = request.body.type;
 			var transId = transType.toUpperCase() + "2022110711558774310283" + (Math.floor(Math.random()*90000) + 10000);
@@ -134,10 +134,11 @@ app.post('/maketransaction', async function(request, response) {
 				connection.query(`select * from bank_account where account_number=${accNum};`, function(error, results, fields) {
 					if (error) throw error;
 					//console.log(results);
-					console.log("Balance:"+results[0]['balance']);
+					// console.log("Balance:"+results[0]['balance']);
 					var curr_balance = results[0]['balance'];
 					if(curr_balance<amount) {
-						throw new Error('Not enough balance');
+						console.log('Not enough balance');
+						response.redirect(`/userdash/${ssn}`);
 					} else {
 						console.log("Withdrawal in progress");
 						connection.query(`insert into customer_transaction(transaction_id, charge, transaction_date, code, amount, account_number, transaction_hour, cust_ssn) values ('${transId}', ${charge}, '${transDate}', '${transCode}', ${amount}, ${accNum}, '${time}', ${ssn});`, function(error, results, fields) {
