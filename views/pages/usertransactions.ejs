@@ -38,6 +38,7 @@
                         <th scope="col">Code</th>
                         <th scope="col">Charge</th>
                         <th scope="col">Date</th>
+                        <th scope="col">Time</th>
                         <th scope="col">Amount</th>
                     </tr>
                 </thead>
@@ -52,7 +53,8 @@
                         <td><%=data.account_number %></td>
                         <td><%=data.code %></td>
                         <td><%=data.charge %></td>
-                        <td><%=data.transaction_date %></td>
+                        <td><%=JSON.stringify(data.transaction_date).substring(1,11) %></td>
+                        <td><%=data.transaction_hour %></td>
                         <td><%=data.amount %></td>
                     </tr>
                     <%

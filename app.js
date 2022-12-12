@@ -48,6 +48,7 @@ app.post('/auth', function(request, response) {
 		connection.query('select * from auth WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
 			if (error) throw error;
 			if (results.length > 0) {
+				console.log(results);
                 if(results[0]['role'] === 'admin'){
 				request.session.loggedin = true;
 				request.session.username = username;
@@ -77,6 +78,7 @@ app.get('/dashboard', async function(request, response) {
 				if (error) throw error;
 				
 				if (results.length > 0) {
+					console.log(results);
 					fetchedBranches = results;
 					await response.render('pages/dashboard',{
 						branchData: fetchedBranches
@@ -101,6 +103,7 @@ app.post('/maketransaction', async function(request, response) {
 	await connection.query(`select * from customer cs inner join customer_account_access ca on cs.cust_ssn = ca.cust_ssn inner join customer_transaction ct on cs.cust_ssn=ct.cust_ssn inner join bank_account ba on ca.account_number=ba.account_number and ba.account_number=${request.body.accNum};`, async function(error, results, fields) {
 		if (error) throw error;
 		if (results.length > 0) {
+			console.log(results);
 			console.log(request.body);
 			console.log(results);
 			var transType = request.body.type;
@@ -116,17 +119,20 @@ app.post('/maketransaction', async function(request, response) {
 			if(request.body.type === 'CD') {
 				connection.query(`insert into customer_transaction(transaction_id, charge, transaction_date, code, amount, account_number, transaction_hour, cust_ssn) values ('${transId}', ${charge}, '${transDate}', '${transCode}', ${amount}, ${accNum}, '${time}', ${ssn});`, function(error, results, fields) {
 					if (error) throw error;
+					console.log(results);
 					console.log("1 transaction inserted");
 				});
 				connection.query(`update bank_account SET balance=balance+${amount} where account_number=${accNum};`, function(error, results, fields) {
 					if (error) throw error;
+					console.log(results);
 					console.log("Account balance updated(Deposit)");
 				});
 				response.redirect(`/userdash/${ssn}`);
 			} else {
 				connection.query(`select * from bank_account where account_number=${accNum};`, function(error, results, fields) {
 					if (error) throw error;
-					console.log(results[0]['balance']);
+					console.log(results);
+					console.log("Balance:"+results[0]['balance']);
 					var curr_balance = results[0]['balance'];
 					if(curr_balance<amount) {
 						throw new Error('Not enough balance');
@@ -134,10 +140,12 @@ app.post('/maketransaction', async function(request, response) {
 						console.log("Withdrawal in progress");
 						connection.query(`insert into customer_transaction(transaction_id, charge, transaction_date, code, amount, account_number, transaction_hour, cust_ssn) values ('${transId}', ${charge}, '${transDate}', '${transCode}', ${amount}, ${accNum}, '${time}', ${ssn});`, function(error, results, fields) {
 							if (error) throw error;
+							console.log(results);
 							console.log("1 transaction inserted");
 						});
 						connection.query(`update bank_account SET balance=balance-${amount} where account_number=${accNum};`, function(error, results, fields) {
 							if (error) throw error;
+							console.log(results);
 							console.log("Account balance updated(Withdraw)");
 						});
 						response.redirect(`/userdash/${ssn}`);
@@ -155,6 +163,7 @@ app.get('/userdash/:cust_ssn', async function(request, response) {
 				if (error) throw error;
 				
 				if (results.length > 0) {
+					console.log(results);
 					transacs = results
 					await response.render('pages/usertransactions',{
 						userTransacs: transacs,
@@ -175,6 +184,7 @@ app.get('/bank/:id', function(request,response){
 			if (error) throw error;
 			
 			if (results.length > 0) {
+				console.log(results);
 				accountsInBranch = results;
 				response.render('pages/customers',{
 					accounts: accountsInBranch
