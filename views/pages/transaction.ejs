@@ -1,5 +1,17 @@
 <!DOCTYPE html>
 <html>
+    <script>
+        function onConfirmClick(){
+            var radios = document.getElementsByName('type');
+
+            for (var i = 0, length = radios.length; i < length; i++) {
+                if (radios[i].checked) {
+                    // alert(radios[i].value);
+                    break;
+                }
+            }
+        }
+        </script>
     <head>
         <title>VSVT Bank Dashboard</title>
         <link rel="stylesheet" href="css/page.css" >
@@ -9,29 +21,28 @@
     <body style="height: 100vh; width: 100vw;">
         <header><%- include('../partials/header'); %></header>
         <div style="padding: 2rem;">
-        <form action="/transact" method="post">
-            <div class="form-group" style="display: grid; grid-template-columns: auto 1fr; gap: 2rem;">
+        <form action="/maketransaction" method="post">
+            <div class="form-group" style="display: grid; grid-template-columns: auto 1fr; gap: 2rem; max-width: 40%;">
                 <label for="exampleFormControlInput1" style="width: 5rem;">Account Number : </label>
-                <input class="form-control" type="text" readonly name="acctNum" value="<%- account_number %>">
+                <input class="form-control" type="text" readonly name="accNum" value="<%- account_number %>">
             </div>
             <div class="form-group" style="display: grid; grid-template-columns: auto 1fr; gap: 2rem;">
                 <label for="exampleFormControlInput1" style="width: 5rem;">Type :</label>
                 <div>
-                    <input type="radio" id="withdraw" name="type" value="withdraw" checked>
+                    <input type="radio" id="withdraw" name="type" value="WD" checked>
                     <label for="withdraw">Withdraw</label>
-                    <input type="radio" id="deposit" name="type" value="deposit">
+                    <input type="radio" id="deposit" name="type" value="CD">
                     <label for="deposit">Deposit</label>
                 </div>
             </div>
-            <div class="form-group" style="display: grid; grid-template-columns: auto 1fr; gap: 2rem;">
-                <label for="exampleFormControlInput1" style="width: 5rem;">Amount : </label>
-                <input class="form-control" type="text" placeholder="Amount" name="amount" required>
+            <div class="form-group" style="display: grid; grid-template-columns: auto 1fr; gap: 2rem; max-width: 40%;">
+                <label for="exampleFormControlInput1" style="width: 5rem;">Amount :</label>
+                <input class="form-control" type="number" placeholder="$" name="amount" min="1" required>
             </div>
             <div class="form-group" style="display: grid; grid-template-columns: auto 1fr; gap: 2rem;">
                 <label for="exampleFormControlInput1" style="width: 5rem;"></label>
                 <div>
-                    <input class="btn-primary" type="submit" value="Confirm" style="width: 25%;"/>
-                    <input class="btn-primary" type="submit" value="Reset" style="width: 25%;"/>
+                        <button type="submit" class="btn btn-primary" onclick="onConfirmClick()">Submit</button>
                 </div>
             </div>
         </form>

@@ -11,6 +11,7 @@
         <div style="padding: 2rem;">
         <div>
             <h3>Branch Overview</h3>
+            <br>
             <form>
                 <div class="form-group" style="display: grid; grid-template-columns: auto 1fr; gap: 2rem;">
                     <label for="exampleFormControlInput1" style="width: 7rem;">Bank name : </label>
@@ -25,7 +26,7 @@
         <div>
             <table class="table table-striped">
                 <thead>
-                    <tr>
+                    <tr style="text-align: center;">
                         <th scope="col">CSSN</th>
                         <th scope="col">Customer Name</th>
                         <th scope="col">Account Number</th>
@@ -34,21 +35,21 @@
                 </thead>
                 <tbody id="table-body">
                     <%
-                    console.log(accounts)
+                    <!-- console.log(accounts) -->
                     if(accounts?.length!=0){
                         accounts.forEach(function(data){
                     %>
-                    <tr>
+                    <tr style="text-align: center;">
                         <td scope="row"><%- data.cust_ssn %></td>
                         <td><%=data.cust_name %></td>
                         <td><%=data.account_number %></td>
-                        <td><%=data.balance %></td>
+                        <td>$<%=data.balance %></td>
                     </tr>
                     <%
                     })
                 }
                 else{
-                    console.log("error ra pumka")
+                    console.log("Error");
                 }    
                     %>
                 </tbody>

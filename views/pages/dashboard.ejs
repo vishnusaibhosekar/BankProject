@@ -10,18 +10,14 @@
         <header><%- include('../partials/header'); %></header>
         <div style="padding: 2rem;">
         <div>
-            <h3>Bank Branches Overview</h3>
-            <form>
-                <div class="form-group" style="display: grid; grid-template-columns: auto 1fr; gap: 2rem;">
-                    <label for="exampleFormControlInput1">Bank Name : </label>
-                    <input class="form-control" type="text" placeholder="VSVT Bank" readonly>
-                </div>
-            </form>
+            <br/>
+            <h3 style="text-align: center;">Bank Branches Overview</h3>
+            <br/>
         </div>
         <div>
             <table class="table table-striped">
                 <thead>
-                    <tr>
+                    <tr style="text-align: center;">
                         <th scope="col">Branch ID</th>
                         <th scope="col">Address</th>
                         <th scope="col">Assets</th>
@@ -30,14 +26,14 @@
                 </thead>
                 <tbody id="table-body">
                     <%
-                    console.log(branchData)
+                    <!-- console.log(branchData) -->
                     if(branchData?.length!=0){
                         branchData.forEach(function(data){
                     %>
-                    <tr>
-                        <td scope="row"><a href="/bank/<%- data.branch_id %>"><%- data.branch_id %></a></td>
+                    <tr style="text-align: center;">
+                        <td scope="row"><a href="/bank/<%- data.branch_id %>">00<%- data.branch_id %></a></td>
                         <td><%=data.address %></td>
-                        <td><%=data.assets %></td>
+                        <td>$<%=data.assets %></td>
                         <td><%=data.branch_name %></td>
                     </tr>
                     <%

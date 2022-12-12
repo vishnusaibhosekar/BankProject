@@ -13,10 +13,10 @@
         <header><%- include('../partials/header'); %></header>
         <div style="padding: 2rem;">
         <div>
-            <h3>Account Overview</h3>
+            <h2>Account Overview:</h2>
             <form>
                 <div class="form-group" style="display: grid; grid-template-columns: auto 1fr; gap: 2rem;">
-                    <label for="exampleFormControlInput1" style="width: 5rem;">Customer name : </label>
+                    <label for="exampleFormControlInput1" style="width: 5rem;">Name : </label>
                     <input class="form-control" type="text" readonly placeholder=<%- userTransacs[0]['cust_name'] %>>
                 </div>
                 <div class="form-group" style="display: grid; grid-template-columns: auto 1fr; gap: 2rem;">
@@ -24,14 +24,15 @@
                     <input class="form-control" type="text" readonly placeholder=<%- userTransacs[0]['balance'] %>>
                 </div>
                 <div style="float: right; margin-bottom: 2rem;">
-                    <button><a href="/transaction/<%- userTransacs[0]['account_number'] %>">Make Transaction</a></button>
+                    <button class="btn-primary bg-light" style="border-radius: 12px;"><a href="/transaction/<%- userTransacs[0]['account_number'] %>">Make Transaction</a></button>
                 </div>
             </form>
         </div>
         <div>
+            <h3>Last Transactions:</h3>
             <table class="table table-striped">
                 <thead>
-                    <tr>
+                    <tr style="text-align: center;">
                         <th scope="col">Transaction id</th>
                         <th scope="col">Account Number</th>
                         <th scope="col">Code</th>
@@ -42,11 +43,11 @@
                 </thead>
                 <tbody id="table-body">
                     <%
-                    console.log(userTransacs)
+                    <!-- console.log(userTransacs) -->
                     if(userTransacs?.length!=0){
                         userTransacs.forEach(function(data){
                     %>
-                    <tr>
+                    <tr style="text-align: center;">
                         <td scope="row"><%- data.transaction_id %></td>
                         <td><%=data.account_number %></td>
                         <td><%=data.code %></td>
@@ -58,7 +59,7 @@
                     })
                 }
                 else{
-                    console.log("error ra pumka")
+                    console.log("Error");
                 }    
                     %>
                 </tbody>
